@@ -1,112 +1,131 @@
 ﻿Public Class Form1
-    ' Data structure to hold customer records
-    Private CustomerList As New List(Of Customer)
+    ' Declare a DataTable to hold the customer data
+    Dim customerTable As New DataTable()
 
-    ' Customer class to hold information
-    Private Class Customer
-        Public Property Nama As String
-        Public Property NoTelefon As String
-        Public Property Alamat As String
-        Public Property Negeri As String
-        Public Property Date As Date
-        Public Property Jantina As String
-        Public Property Bayaran As String
-        Public Property Perisa As String
-    End Class
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Initialize the DataGridView columns
+        customerTable.Columns.Add("Bil", GetType(Integer))
+        customerTable.Columns.Add("Nama", GetType(String))
+        customerTable.Columns.Add("No. Telefon", GetType(String))
+        dgvMaklumat.DataSource = customerTable
 
-    ' Create button event
-    Private Sub btnCreate_Click(sender As Object, e As EventArgs) Handles btncreate.Click
-        Dim flavors As String = String.Join(", ", GetSelectedFlavors())
-
-        ' Add a new customer record
-        CustomerList.Add(New Customer With {
-            .Nama = txtNama.Text,
-            .NoTelefon = txtNoTelefon.Text,
-            .Alamat = txtAlamat.Text,
-            .Negeri = cmbNegeri.Text,
-            .Date = dtpDate.Value,
-            .Jantina = If(rbMale.Checked, "Male", "Female"),
-            .Payment = If(rbCash.Checked, "Cash", "Cashless"),
-            .Flavors = flavors
-        })
-
-        RefreshGrid()
-        ClearInputs()
+        ' Populate the Negeri dropdown
+        cbxNegeri.Items.AddRange(New String() {"Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", "Pahang", "Penang", "Perak", "Perlis", "Sabah", "Sarawak", "Selangor", "Terengganu"})
+        cbxNegeri.SelectedIndex = 0
     End Sub
 
-    ' Read button event
-    Private Sub btnRead_Click(sender As Object, e As EventArgs) Handles btnread.Click
-        RefreshGrid()
+    Private Sub BtnCreate_Click(sender As Object, e As EventArgs) Handles btnCreate.Click
+        ' Validate that the required fields are not empty
+        If String.IsNullOrWhiteSpace(TxtNama.Text) OrElse String.IsNullOrWhiteSpace(TxtNoTelefon.Text) Then
+            MessageBox.Show("Please fill in both the Name and Phone Number fields.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        ' Create a new row in the DataTable
+        Dim newRow As DataRow = customerTable.NewRow()
+
+        ' Populate the row with data from input fields
+        newRow("Bil") = customerTable.Rows.Count + 1 ' Auto-increment for the "Bil" column
+        newRow("Nama") = TxtNama.Text
+        newRow("No. Telefon") = TxtNoTelefon.Text
+
+        ' Add the new row to the DataTable
+        customerTable.Rows.Add(newRow)
+
+        ' Clear input fields after adding
+        ClearFields()
+
+        ' Provide feedback to the user
+        MessageBox.Show("Customer record created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
-    ' Update button event
-    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnupdate.Click
-        If dgvCustomers.SelectedRows.Count > 0 Then
-            Dim selectedRow = dgvCustomers.SelectedRows(0).Index
-            Dim selectedCustomer = CustomerList(selectedRow)
 
-            ' Update the selected customer record
-            selectedCustomer.Name = txtName.Text
-            selectedCustomer.Phone = txtPhone.Text
-            selectedCustomer.Address = txtAddress.Text
-            selectedCustomer.State = cmbState.Text
-            selectedCustomer.DateJoined = dtpDate.Value
-            selectedCustomer.Gender = If(rbMale.Checked, "Male", "Female")
-            selectedCustomer.Payment = If(rbCash.Checked, "Cash", "Cashless")
-            selectedCustomer.Flavors = String.Join(", ", GetSelectedFlavors())
-
-            RefreshGrid()
-            ClearInputs()
+    Private Sub BtnRead_Click(sender As Object, e As EventArgs) Handles btnRead.Click
+        ' Display the selected row details in the input fields
+        If dgvMaklumat.CurrentRow IsNot Nothing Then
+            Dim rowIndex As Integer = dgvMaklumat.CurrentRow.Index
+            TxtNama.Text = customerTable.Rows(rowIndex)("Nama").ToString()
+            TxtNoTelefon.Text = customerTable.Rows(rowIndex)("No. Telefon").ToString()
         End If
     End Sub
 
-    ' Delete button event
-    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btndelete.Click
-        If dgvCustomers.SelectedRows.Count > 0 Then
-            Dim selectedRow = dgvCustomers.SelectedRows(0).Index
-            CustomerList.RemoveAt(selectedRow)
-            RefreshGrid()
+    Private Sub BtnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
+        ' Check if a row is selected in the DataGridView
+        If dgvMaklumat.CurrentRow Is Nothing Then
+            MessageBox.Show("Please select a row to update.", "No Row Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        ' Validate that the required fields are not empty
+        If String.IsNullOrWhiteSpace(TxtNama.Text) OrElse String.IsNullOrWhiteSpace(TxtNoTelefon.Text) Then
+            MessageBox.Show("Please fill in both the Name and Phone Number fields.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        ' Get the index of the selected row
+        Dim rowIndex As Integer = dgvMaklumat.CurrentRow.Index
+
+        ' Update the selected row with data from input fields
+        customerTable.Rows(rowIndex)("Nama") = TxtNama.Text
+        customerTable.Rows(rowIndex)("No. Telefon") = TxtNoTelefon.Text
+
+        ' Refresh the DataGridView (if necessary)
+        dgvMaklumat.Refresh()
+
+        ' Clear input fields after updating
+        ClearFields()
+
+        ' Provide feedback to the user
+        MessageBox.Show("Customer record updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+
+
+    Private Sub BtnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        ' Check if a row is selected in the DataGridView
+        If dgvMaklumat.CurrentRow IsNot Nothing Then
+            ' Get the index of the selected row
+            Dim rowIndex As Integer = dgvMaklumat.CurrentRow.Index
+
+            ' Confirm deletion
+            Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+
+            If result = DialogResult.Yes Then
+                ' Delete the row from the DataTable
+                customerTable.Rows(rowIndex).Delete()
+
+                ' Refresh DataGridView after deletion (if necessary)
+                dgvMaklumat.DataSource = Nothing
+                dgvMaklumat.DataSource = customerTable
+
+                ' Clear input fields
+                ClearFields()
+            End If
+        Else
+            ' Display a message if no row is selected
+            MessageBox.Show("Please select a row to delete.", "No Row Selected", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
-    ' Refresh the data grid view with updated customer data
-    Private Sub RefreshGrid()
-        dgvCustomers.Rows.Clear()
-        For Each customer In CustomerList
-            dgvCustomers.Rows.Add(dgvCustomers.Rows.Count + 1, customer.Name, customer.Phone)
-        Next
+
+    Private Sub ClearFields()
+        ' Clear input fields
+        TxtNama.Clear()
+        TxtNoTelefon.Clear()
+        TxtAlamat.Clear()
+        cbxNegeri.SelectedIndex = 0
+        rbtLelaki.Checked = False
+        rbtPerempuan.Checked = False
+        cbxMilo.Checked = False
+        cbxKopi.Checked = False
+        cbxCoklat.Checked = False
+        cbxStrawberi.Checked = False
+        cbxPisang.Checked = False
+        rbtCash.Checked = False
+        rbtCashless.Checked = False
     End Sub
 
-    ' Clear input fields
-    Private Sub ClearInputs()
-        txtName.Clear()
-        txtPhone.Clear()
-        txtAddress.Clear()
-        cmbState.SelectedIndex = -1
-        dtpDate.Value = Date.Now
-        rbMale.Checked = True
-        rbCash.Checked = True
-        UncheckFlavors()
-    End Sub
 
-    ' Get selected flavors from checkboxes
-    Private Function GetSelectedFlavors() As List(Of String)
-        Dim flavors As New List(Of String)
-        If chkmilo.Checked Then flavors.Add("Milo")
-        If chkCoffee.Checked Then flavors.Add("Coffee")
-        If chkChocolate.Checked Then flavors.Add("Chocolate")
-        If chkStrawberry.Checked Then flavors.Add("Strawberry")
-        If chkBanana.Checked Then flavors.Add("Banana")
-        Return flavors
-    End Function
-
-    ' Uncheck all flavor checkboxes
-    Private Sub UncheckFlavors()
-        chkmilo.Checked = False
-        chkCoffee.Checked = False
-        chkChocolate.Checked = False
-        chkStrawberry.Checked = False
-        chkBanana.Checked = False
-    End Sub
 End Class
+
+
 
