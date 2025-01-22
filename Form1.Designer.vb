@@ -24,9 +24,9 @@ Partial Class Form1
     Private Sub InitializeComponent()
         lblMaklumatPelanggan = New Label()
         lblNama = New Label()
-        TxtNama = New TextBox()
+        txtNama = New TextBox()
         lblNoTelefon = New Label()
-        TxtNoTelefon = New TextBox()
+        txtNoTelefon = New TextBox()
         cbxNegeri = New ComboBox()
         lblNegeri = New Label()
         rbtLelaki = New RadioButton()
@@ -51,7 +51,7 @@ Partial Class Form1
         btnUpdate = New Button()
         btnDelete = New Button()
         lblAlamat = New Label()
-        TxtAlamat = New TextBox()
+        txtAlamat = New TextBox()
         gbxJantina.SuspendLayout()
         gbxBayaran.SuspendLayout()
         gbxPerisa.SuspendLayout()
@@ -76,12 +76,12 @@ Partial Class Form1
         lblNama.TabIndex = 1
         lblNama.Text = "Nama"
         ' 
-        ' TxtNama
+        ' txtNama
         ' 
-        TxtNama.Location = New Point(122, 95)
-        TxtNama.Name = "TxtNama"
-        TxtNama.Size = New Size(317, 27)
-        TxtNama.TabIndex = 2
+        txtNama.Location = New Point(122, 95)
+        txtNama.Name = "txtNama"
+        txtNama.Size = New Size(317, 27)
+        txtNama.TabIndex = 2
         ' 
         ' lblNoTelefon
         ' 
@@ -92,12 +92,12 @@ Partial Class Form1
         lblNoTelefon.TabIndex = 3
         lblNoTelefon.Text = "No. Telefon"
         ' 
-        ' TxtNoTelefon
+        ' txtNoTelefon
         ' 
-        TxtNoTelefon.Location = New Point(122, 135)
-        TxtNoTelefon.Name = "TxtNoTelefon"
-        TxtNoTelefon.Size = New Size(217, 27)
-        TxtNoTelefon.TabIndex = 4
+        txtNoTelefon.Location = New Point(122, 135)
+        txtNoTelefon.Name = "txtNoTelefon"
+        txtNoTelefon.Size = New Size(217, 27)
+        txtNoTelefon.TabIndex = 4
         ' 
         ' cbxNegeri
         ' 
@@ -330,20 +330,20 @@ Partial Class Form1
         lblAlamat.TabIndex = 25
         lblAlamat.Text = "Alamat"
         ' 
-        ' TxtAlamat
+        ' txtAlamat
         ' 
-        TxtAlamat.Location = New Point(122, 183)
-        TxtAlamat.Multiline = True
-        TxtAlamat.Name = "TxtAlamat"
-        TxtAlamat.Size = New Size(217, 77)
-        TxtAlamat.TabIndex = 26
+        txtAlamat.Location = New Point(122, 183)
+        txtAlamat.Multiline = True
+        txtAlamat.Name = "txtAlamat"
+        txtAlamat.Size = New Size(217, 77)
+        txtAlamat.TabIndex = 26
         ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(800, 450)
-        Controls.Add(TxtAlamat)
+        Controls.Add(txtAlamat)
         Controls.Add(lblAlamat)
         Controls.Add(btnDelete)
         Controls.Add(btnUpdate)
@@ -356,9 +356,9 @@ Partial Class Form1
         Controls.Add(gbxJantina)
         Controls.Add(lblNegeri)
         Controls.Add(cbxNegeri)
-        Controls.Add(TxtNoTelefon)
+        Controls.Add(txtNoTelefon)
         Controls.Add(lblNoTelefon)
-        Controls.Add(TxtNama)
+        Controls.Add(txtNama)
         Controls.Add(lblNama)
         Controls.Add(lblMaklumatPelanggan)
         Name = "Form1"
@@ -376,9 +376,9 @@ Partial Class Form1
 
     Friend WithEvents lblMaklumatPelanggan As Label
     Friend WithEvents lblNama As Label
-    Friend WithEvents TxtNama As TextBox
+    Friend WithEvents txtNama As TextBox
     Friend WithEvents lblNoTelefon As Label
-    Friend WithEvents TxtNoTelefon As TextBox
+    Friend WithEvents txtNoTelefon As TextBox
     Friend WithEvents cbxNegeri As ComboBox
     Friend WithEvents lblNegeri As Label
     Friend WithEvents rbtLelaki As RadioButton
@@ -400,7 +400,7 @@ Partial Class Form1
     Friend WithEvents btnUpdate As Button
     Friend WithEvents btnDelete As Button
     Friend WithEvents lblAlamat As Label
-    Friend WithEvents TxtAlamat As TextBox
+    Friend WithEvents txtAlamat As TextBox
     Friend WithEvents clmBil As DataGridViewTextBoxColumn
     Friend WithEvents clmNama As DataGridViewTextBoxColumn
     Friend WithEvents clmNoTelefon As DataGridViewTextBoxColumn

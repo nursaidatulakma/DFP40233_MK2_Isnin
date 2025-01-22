@@ -16,7 +16,7 @@
 
     Private Sub BtnCreate_Click(sender As Object, e As EventArgs) Handles btnCreate.Click
         ' Validate that the required fields are not empty
-        If String.IsNullOrWhiteSpace(TxtNama.Text) OrElse String.IsNullOrWhiteSpace(TxtNoTelefon.Text) Then
+        If String.IsNullOrWhiteSpace(txtNama.Text) OrElse String.IsNullOrWhiteSpace(txtNoTelefon.Text) Then
             MessageBox.Show("Please fill in both the Name and Phone Number fields.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
@@ -26,8 +26,8 @@
 
         ' Populate the row with data from input fields
         newRow("Bil") = customerTable.Rows.Count + 1 ' Auto-increment for the "Bil" column
-        newRow("Nama") = TxtNama.Text
-        newRow("No. Telefon") = TxtNoTelefon.Text
+        newRow("Nama") = txtNama.Text
+        newRow("No. Telefon") = txtNoTelefon.Text
 
         ' Add the new row to the DataTable
         customerTable.Rows.Add(newRow)
@@ -44,8 +44,8 @@
         ' Display the selected row details in the input fields
         If dgvMaklumat.CurrentRow IsNot Nothing Then
             Dim rowIndex As Integer = dgvMaklumat.CurrentRow.Index
-            TxtNama.Text = customerTable.Rows(rowIndex)("Nama").ToString()
-            TxtNoTelefon.Text = customerTable.Rows(rowIndex)("No. Telefon").ToString()
+            txtNama.Text = customerTable.Rows(rowIndex)("Nama").ToString()
+            txtNoTelefon.Text = customerTable.Rows(rowIndex)("No. Telefon").ToString()
         End If
     End Sub
 
@@ -57,7 +57,7 @@
         End If
 
         ' Validate that the required fields are not empty
-        If String.IsNullOrWhiteSpace(TxtNama.Text) OrElse String.IsNullOrWhiteSpace(TxtNoTelefon.Text) Then
+        If String.IsNullOrWhiteSpace(txtNama.Text) OrElse String.IsNullOrWhiteSpace(txtNoTelefon.Text) Then
             MessageBox.Show("Please fill in both the Name and Phone Number fields.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
@@ -66,8 +66,8 @@
         Dim rowIndex As Integer = dgvMaklumat.CurrentRow.Index
 
         ' Update the selected row with data from input fields
-        customerTable.Rows(rowIndex)("Nama") = TxtNama.Text
-        customerTable.Rows(rowIndex)("No. Telefon") = TxtNoTelefon.Text
+        customerTable.Rows(rowIndex)("Nama") = txtNama.Text
+        customerTable.Rows(rowIndex)("No. Telefon") = txtNoTelefon.Text
 
         ' Refresh the DataGridView (if necessary)
         dgvMaklumat.Refresh()
@@ -109,9 +109,9 @@
 
     Private Sub ClearFields()
         ' Clear input fields
-        TxtNama.Clear()
-        TxtNoTelefon.Clear()
-        TxtAlamat.Clear()
+        txtNama.Clear()
+        txtNoTelefon.Clear()
+        txtAlamat.Clear()
         cbxNegeri.SelectedIndex = 0
         rbtLelaki.Checked = False
         rbtPerempuan.Checked = False
